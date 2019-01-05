@@ -7,8 +7,6 @@ const Project = require("../models/project");
 const User = require("../models/user");
 const Profile = require("../models/profile");
 const ROE = require("../models/std-param/roe");
-const DA = require("../models/da");
-const IndexA = require("../models/share-index/indexA");
 const querystring = require("querystring");
 
 let _ = require("lodash");
