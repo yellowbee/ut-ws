@@ -8,7 +8,7 @@ const schema = require('./schema/schema');
 let app = express();
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://ben:password2018@ds039155.mlab.com:39155/bbi');
+mongoose.connect('mongodb://devUser:password@woyaotest.com:27017/woyaotest');
 mongoose.connection
     .once('open', () => console.log('MongoDB good to go!'))
     .on('error', (error) => {
@@ -31,6 +31,7 @@ app.all('/*', function(req, res, next) {
     }
 });
 
+app.use('/api', require('./middlewares/validateRequestToken'));
 /*app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "http://localhost:8601");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");

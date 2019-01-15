@@ -9,10 +9,13 @@ let router = express.Router();
 let auth = require('./auth.js');
 let user = require('./users.js');
 let stdParam = require('./std-param');
+
+let onTestee = require('./on-testee');
+let onTester= require('./on-tester');
 /*
  * Routes that can be accessed by any one
  */
-router.post('/login', auth.login);
+//router.post('/login', auth.login);
 router.post('/api/user', user.service.create);
 
 /**
@@ -30,6 +33,11 @@ router.get('/api/projects/:userName', user.service.getProjectsByUserName);
 router.get('/api/roe/:code', user.service.getRoeByCompany);
 router.get('/api/roes/:codesstr', stdParam.getRoesByCompanies);
 
+router.post('/testee', onTestee.create);
+router.post('/tester', onTester.create);
+router.post('/testee-login', onTestee.login);
+router.post('/tester-login', onTester.login);
+router.get('/api/test', (req, res)=> {res.json({result: "test success"})});
 //router.get('/api/project-detail/:id', user.service.getProjectDetail);
 //router.get('/api/profile/:userName', user.service.getProfile);
 

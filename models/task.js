@@ -1,12 +1,12 @@
 /**
- * Created by bhuang on 01/01/19.
+ * Created by bhuang on 01/09/19.
  */
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const TesteeSchema = new Schema(
+const TaskSchema = new Schema(
   {
-    name: String,
+    title: String,
     dob: Number,
     sex: String,
     industry: String,
@@ -15,8 +15,8 @@ const TesteeSchema = new Schema(
     wechat: String,
     desc: String
   },
-  { collection: "testees" }
+  { collection: "tasks" }
 );
 
-const Testee = mongoose.model("Testee", TesteeSchema);
-module.exports = Testee;
+const Task = mongoose.model("Task", TaskSchema);
+module.exports = Task;
