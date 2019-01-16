@@ -1,9 +1,16 @@
 const express = require('express');
+const https = require('https');
+const fs = require('fs');
 const path = require('path');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const expressGraphQL = require("express-graphql");
 const schema = require('./schema/schema');
+
+const options = {
+  key: fs.readFileSync('/home/ben/ssl-cert/1741685_woyaotest.com.key'),
+  cert: fs.readdirSync('/home/ben/ssl-cert/1741685_woyaotest.com.pem')
+};
 
 let app = express();
 
@@ -73,4 +80,6 @@ app.set('port', process.env.PORT || 3000);
 let server = app.listen(app.get('port'), () => {
     console.log('Express server listening on port ' + server.address().port);
 });
+
+https.createServer(options, app).listen(443);
 
