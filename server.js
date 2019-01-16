@@ -8,8 +8,8 @@ const expressGraphQL = require("express-graphql");
 const schema = require('./schema/schema');
 
 const options = {
-  key: fs.readFileSync(__dirname + '../../ssl-cert/1741685_woyaotest.com.key'),
-  cert: fs.readFileSync(__dirname + '../../ssl-cert/1741685_woyaotest.com.pem')
+  key: fs.readFileSync(path.resolve('../../ssl-cert/1741685_woyaotest.com.key')),
+  cert: fs.readFileSync(path.resolve('../../ssl-cert/1741685_woyaotest.com.pem'))
 };
 
 let app = express();
