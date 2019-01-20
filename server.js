@@ -8,8 +8,8 @@ const expressGraphQL = require("express-graphql");
 const schema = require('./schema/schema');
 
 const options = {
-  key: fs.readFileSync(path.resolve('../../ssl-cert/1741685_woyaotest.com.key')),
-  cert: fs.readFileSync(path.resolve('../../ssl-cert/1741685_woyaotest.com.pem'))
+  key: fs.readFileSync(path.resolve(process.env.CERT_PATH || '/Users/ben', './ssl-cert/1741685_woyaotest.com.key')),
+  cert: fs.readFileSync(path.resolve(process.env.CERT_PATH || '/Users/ben', './ssl-cert/1741685_woyaotest.com.pem'))
 };
 
 let app = express();
@@ -75,11 +75,15 @@ app.use(express.json());
 app.use(express.urlencoded());
 
 // Start the server
-app.set('port', process.env.PORT || 3000);
-
-let server = app.listen(app.get('port'), () => {
-    console.log('Express server listening on port ' + server.address().port);
-});
-
 https.createServer(options, app).listen(443);
+
+/*if (process.env.CERT_PATH) {
+  https.createServer(options, app).listen(443);
+} else {
+  app.set('port', process.env.PORT || 3000);
+
+  let server = app.listen(app.get('port'), () => {
+    console.log('Express server listening on port ' + server.address().port);
+  });
+}*/
 
