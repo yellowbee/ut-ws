@@ -6,10 +6,14 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const expressGraphQL = require("express-graphql");
 const schema = require('./schema/schema');
+const yaml = require('js-yaml');
+
+const config = yaml.safeLoad(fs.readFileSync(path.resolve(process.env.CONFIG_PATH, './config.yaml')));
+console.log(config);
 
 const options = {
-  key: fs.readFileSync(path.resolve(process.env.CERT_PATH || '/Users/ben/ssl-cert', './1741685_woyaotest.com.key')),
-  cert: fs.readFileSync(path.resolve(process.env.CERT_PATH || '/Users/ben/ssl-cert', './1741685_woyaotest.com.pem'))
+  key: fs.readFileSync(path.resolve(config.config.paths.ssl_cert, './1741685_woyaotest.com.key')),
+  cert: fs.readFileSync(path.resolve(config.config.paths.ssl_cert, './1741685_woyaotest.com.pem'))
 };
 
 let app = express();
