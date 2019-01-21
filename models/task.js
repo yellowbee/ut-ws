@@ -6,14 +6,15 @@ const Schema = mongoose.Schema;
 
 const TaskSchema = new Schema(
   {
-    title: String,
+    desc: String,
     dob: Number,
-    sex: String,
     industry: String,
-    price: Number,
+    openid: String,
     phone: String,
+    price: Number,
+    sex: String,
+    title: String,
     wechat: String,
-    desc: String
   },
   { collection: "tasks" }
 );

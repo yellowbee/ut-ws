@@ -40,6 +40,8 @@ router.post('/tester', onTester.create);
 router.post('/testee-login', onTestee.login);
 router.post('/tester-login', onTester.login);
 router.get('/test', (req, res)=> {res.json({result: "test success"})});
+
+router.post('/user-pool/task', onTester.addTask);
 //router.get('/api/project-detail/:id', user.service.getProjectDetail);
 //router.get('/api/profile/:userName', user.service.getProfile);
 

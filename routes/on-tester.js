@@ -4,6 +4,7 @@
 
 let jwt = require("jsonwebtoken");
 const Tester = require("../models/tester");
+const Task = require("../models/task");
 //const querystring = require("querystring");
 const config = require("../config/config");
 const axios = require("axios");
@@ -22,7 +23,6 @@ let service = {
           res.json({ result: err });
         }
         if (testers.length > 0) {
-          console.log(testers);
           res.json({ result: "phone number is not available" });
         } else {
           let token = genToken(newTester);
@@ -85,7 +85,6 @@ let service = {
       }&secret=${config.config.user_pool.app_secret}&js_code=${
         req.params.code
       }&grant_type=authorization_code`;
-      console.log(url);
       axios
         .get(url)
         .then(function(response) {
@@ -96,6 +95,33 @@ let service = {
         });
     } else {
       res.json({ message: "code is missing" });
+    }
+  },
+  
+  addTask: function(req, res) {
+    if (_.isEmpty(req.body)) {
+      res.json({ message: "request body cannot be empty" });
+    } else {
+      let newTask = req.body;
+      const task = new Task({
+        desc: newTask.desc,
+        dob: newTask.dob,
+        industry: newTask.industry,
+        openid: newTask.openid,
+        phone: newTask.phone,
+        price: newTask.price,
+        sex: newTask.sex,
+        title: newTask.title,
+        wechat: newTask.wechat,
+      });
+
+      task.save((err, obj) => {
+        if (err) {
+          res.json({ result: err });
+        } else {
+          res.json({message: "New task saved!"});
+        }
+      });
     }
   }
 };

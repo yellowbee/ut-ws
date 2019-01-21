@@ -9,8 +9,8 @@ const schema = require('./schema/schema');
 const config = require('./config/config');
 
 const options = {
-  key: fs.readFileSync(path.resolve(config.config.paths.ssl_cert, './1741685_woyaotest.com.key')),
-  cert: fs.readFileSync(path.resolve(config.config.paths.ssl_cert, './1741685_woyaotest.com.pem'))
+  key: fs.readFileSync(path.resolve(config.config.paths.ssl_cert, `./${config.config.files.ssl_key}`)),
+  cert: fs.readFileSync(path.resolve(config.config.paths.ssl_cert, `./${config.config.files.ssl_pem}`))
 };
 
 let app = express();
