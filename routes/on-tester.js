@@ -4,7 +4,9 @@
 
 let jwt = require("jsonwebtoken");
 const Tester = require("../models/tester");
-const querystring = require("querystring");
+//const querystring = require("querystring");
+const config = require("../config/config");
+const axios = require("axios");
 
 let _ = require("lodash");
 let uuid = require("uuid");
@@ -32,7 +34,7 @@ let service = {
             phone: newTester.phone,
             desc: newTester.desc,
             token: {
-              value: token,
+              value: token
             }
           });
 
@@ -46,7 +48,7 @@ let service = {
                   phone: newTester.phone
                 },
                 token: {
-                  value: token,
+                  value: token
                 }
               });
             }
@@ -66,14 +68,38 @@ let service = {
           res.json({ result: err });
         }
         if (testers.length > 0) {
-          res.json({ token: genToken({phone: tester.phone}) });
+          res.json({ token: genToken({ phone: tester.phone }) });
         } else {
-          res.json({ result: "no such phone number found"})
+          res.json({ result: "no such phone number found" });
         }
       });
     }
   },
 
+  // fetch wechat user's openid and login session
+  wsCodeToSession: function(req, res) {
+    if (req.params.code) {
+      //var d=that.globalData;//这里存储了appid、secret、token串
+      let url = `https://api.weixin.qq.com/sns/jscode2session?appid=${
+        config.config.user_pool.app_id
+      }&secret=${config.config.user_pool.app_secret}&js_code=${
+        req.params.code
+      }&grant_type=authorization_code`;
+      console.log(url);
+      axios
+        .get(url)
+        .then(function(response) {
+          console.log(response);
+          res.json({response: response})
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    } else {
+      console.log("code is missing");
+      res.json({ message: "code is missing" });
+    }
+  }
 };
 
 let genToken = function(obj) {
@@ -85,7 +111,7 @@ let genToken = function(obj) {
     {
       name: obj.name,
       phone: obj.phone,
-      exp: Math.floor(Date.now() / 1000) + (60 * 60)
+      exp: Math.floor(Date.now() / 1000) + 60 * 60
     },
     require("../config/secret")()
   );

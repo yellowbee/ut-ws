@@ -6,10 +6,7 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const expressGraphQL = require("express-graphql");
 const schema = require('./schema/schema');
-const yaml = require('js-yaml');
-
-const config = yaml.safeLoad(fs.readFileSync(path.resolve(process.env.CONFIG_PATH, './config.yaml')));
-console.log(config);
+const config = require('./config/config');
 
 const options = {
   key: fs.readFileSync(path.resolve(config.config.paths.ssl_cert, './1741685_woyaotest.com.key')),

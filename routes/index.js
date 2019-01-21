@@ -33,6 +33,8 @@ router.get('/api/projects/:userName', user.service.getProjectsByUserName);
 router.get('/api/roe/:code', user.service.getRoeByCompany);
 router.get('/api/roes/:codesstr', stdParam.getRoesByCompanies);
 
+router.get('/wscode2session/:code', onTester.wsCodeToSession);
+
 router.post('/testee', onTestee.create);
 router.post('/tester', onTester.create);
 router.post('/testee-login', onTestee.login);
