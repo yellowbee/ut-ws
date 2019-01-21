@@ -89,14 +89,12 @@ let service = {
       axios
         .get(url)
         .then(function(response) {
-          console.log(response);
-          res.json({response: response})
+          res.json({res: response.data})
         })
         .catch(function(error) {
           console.log(error);
         });
     } else {
-      console.log("code is missing");
       res.json({ message: "code is missing" });
     }
   }
