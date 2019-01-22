@@ -88,7 +88,7 @@ let service = {
       axios
         .get(url)
         .then(function(response) {
-          res.json({res: response.data})
+          res.json({ res: response.data });
         })
         .catch(function(error) {
           console.log(error);
@@ -97,7 +97,7 @@ let service = {
       res.json({ message: "code is missing" });
     }
   },
-  
+
   addTask: function(req, res) {
     if (_.isEmpty(req.body)) {
       res.json({ message: "request body cannot be empty" });
@@ -112,17 +112,28 @@ let service = {
         price: newTask.price,
         sex: newTask.sex,
         title: newTask.title,
-        wechat: newTask.wechat,
+        wechat: newTask.wechat
       });
 
       task.save((err, obj) => {
         if (err) {
           res.json({ result: err });
         } else {
-          res.json({message: "New task saved!"});
+          res.json({ message: "New task saved!" });
         }
       });
     }
+  },
+
+  // get all tasks posted by a specific wechat openid
+  getTasksByWxOpenid(req, res) {
+    Task.find({ openid: req.params.openid }, (err, tasks) => {
+      if (err) {
+        res.json({ result: err });
+      } else {
+        res.json(tasks);
+      }
+    });
   }
 };
 
