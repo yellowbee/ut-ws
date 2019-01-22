@@ -125,6 +125,19 @@ let service = {
     }
   },
 
+  deleteTaskById: function(req, res) {
+    Task.findByIdAndRemove(req.params._id, (err, task) => {
+      // As always, handle any potential errors:
+      if (err) {
+        res.json({err: err});
+      } else {
+        // We'll create a simple object to send back with a message and the id of the document that was removed
+        // You can really do this however you want, though.
+        res.json({ message: `task with id ${task._id} deleted!` });
+      }
+    });
+  },
+
   // get all tasks posted by a specific wechat openid
   getTasksByWxOpenid(req, res) {
     Task.find({ openid: req.params.openid }, (err, tasks) => {

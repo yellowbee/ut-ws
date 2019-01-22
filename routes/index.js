@@ -43,6 +43,8 @@ router.get('/test', (req, res)=> {res.json({result: "test success"})});
 
 router.post('/task', onTester.addTask);
 router.get('/tasks/:openid', onTester.getTasksByWxOpenid);
+router.delete('/task/:_id', onTester.deleteTaskById);
+
 router.post('/testees', onTestee.getTesteesByIndustry);
 //router.get('/api/project-detail/:id', user.service.getProjectDetail);
 //router.get('/api/profile/:userName', user.service.getProfile);
