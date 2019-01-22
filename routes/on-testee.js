@@ -113,6 +113,17 @@ let service = {
     } else {
       res.json({ result: null });
     }
+  },
+
+  getTesteesByIndustry: function(req, res) {
+    console.log(req.body.industry);
+    Testee.find({ industry: req.body.industry }, (err, testees) => {
+      if (err) {
+        res.json({ result: err });
+      } else {
+        res.json(testees);
+      }
+    });
   }
 };
 
