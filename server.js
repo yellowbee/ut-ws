@@ -16,7 +16,7 @@ const options = {
 let app = express();
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://devUser:password@woyaotest.com:27017/woyaotest');
+mongoose.connect(config.config.dbs.woyaotest);
 mongoose.connection
     .once('open', () => console.log('MongoDB good to go!'))
     .on('error', (error) => {
