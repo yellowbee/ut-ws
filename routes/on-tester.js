@@ -106,6 +106,7 @@ let service = {
       const task = new Task({
         desc: newTask.desc,
         dob: newTask.dob,
+        edu: newTask.edu,
         industry: newTask.industry,
         openid: newTask.openid,
         phone: newTask.phone,
