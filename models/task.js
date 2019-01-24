@@ -8,6 +8,7 @@ const TaskSchema = new Schema(
   {
     desc: String,
     dob: Number,
+    edu: String,
     industry: String,
     openid: String,
     phone: String,
