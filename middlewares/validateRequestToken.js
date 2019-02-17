@@ -4,7 +4,7 @@ const secret = require('../config/secret')();
 module.exports = (req, res, next)=>{
   // check header or url parameters or post parameters for token
   //var token = req.body.token || req.query.token || req.headers['x-access-token'];
-  const token = req.headers.authorization.split(' ')[1];
+  const token = req.headers.authorization ? req.headers.authorization.split(' ')[1] : null;
 
   if(token){
     //Decode the token

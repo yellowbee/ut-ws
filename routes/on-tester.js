@@ -23,16 +23,16 @@ let service = {
           res.json({ result: err });
         }
         if (testers.length > 0) {
-          res.json({ result: "phone number is not available" });
+          res.json({success: false, errorCode: '0001'});
         } else {
           let token = genToken(newTester);
 
           const tester = new Tester({
             name: newTester.name,
             industry: newTester.industry,
-            price: newTester.price,
+            size: newTester.size,
             phone: newTester.phone,
-            desc: newTester.desc,
+            code: newTester.code,
             token: {
               value: token
             }
@@ -40,10 +40,11 @@ let service = {
 
           tester.save((err, obj) => {
             if (err) {
-              res.json({ result: err });
+              res.json({success: false, errorCode: '0002', result: err });
             } else {
               res.json({
-                testee: {
+                success: true,
+                tester: {
                   name: newTester.name,
                   phone: newTester.phone
                 },

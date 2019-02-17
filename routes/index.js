@@ -16,7 +16,7 @@ let onTester= require('./on-tester');
  * Routes that can be accessed by any one
  */
 //router.post('/login', auth.login);
-router.post('/api/user', user.service.create);
+router.post('/new-user', user.service.create);
 
 /**
  * client sends the token in the request; if the token
@@ -36,7 +36,7 @@ router.get('/api/roes/:codesstr', stdParam.getRoesByCompanies);
 router.get('/wscode2session/:code', onTester.wsCodeToSession);
 
 router.post('/testee', onTestee.create);
-router.post('/tester', onTester.create);
+router.post('/new-tester', onTester.create);
 router.post('/testee-login', onTestee.login);
 router.post('/tester-login', onTester.login);
 router.get('/test', (req, res)=> {res.json({result: "test success"})});
@@ -45,7 +45,7 @@ router.post('/task', onTester.addTask);
 router.get('/tasks/:openid', onTester.getTasksByWxOpenid);
 router.delete('/task/:_id', onTester.deleteTaskById);
 
-router.post('/testees', onTestee.getTesteesByIndustry);
+router.post('/api/testees', onTestee.getTesteesByIndustry);
 //router.get('/api/project-detail/:id', user.service.getProjectDetail);
 //router.get('/api/profile/:userName', user.service.getProfile);
 

@@ -1,0 +1,2 @@
+0001: Phone number has been registered for signup and is not available.
+0002: Database errors.

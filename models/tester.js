@@ -8,9 +8,9 @@ const TesterSchema = new Schema(
   {
     name: String,
     industry: String,
-    size: Number,
-    price: Number,
+    size: String,
     phone: String,
+    code: String,
     desc: String
   },
   { collection: "testers" }
