@@ -28,6 +28,7 @@ let service = {
         } else {
           let savedCode = redisClient.get(newTester.mobile);
           if (!savedCode || savedCode !== newTester.code) {//code mismatches
+            console.log(`savedCode: ${savedCode}, submitted code: ${newTester.code}`);
             res.json({ success: false, errorCode: '0005' })
           } else {// code verified
 
