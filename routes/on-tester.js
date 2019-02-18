@@ -90,7 +90,7 @@ let service = {
 
             if (err) {
               res.json({ success: false, errorCode: "0006" });
-            } else if (!reply || reply !== newTester.code) {
+            } else if (!reply || reply !== tester.code) {
               //code mismatches
               res.json({ success: false, errorCode: "0005" });
             } else {
