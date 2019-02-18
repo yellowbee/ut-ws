@@ -17,7 +17,7 @@ client.on('error', function (err) {
 const service = {
   sendSms: function(req, res) {
     let code = random6();
-    console.log(code);
+    console.log(`submail sms code: ${ code }`);
 
     axios.post('https://api.mysubmail.com/message/send.json', {
       appid: config.config.user_pool.submail_appid,

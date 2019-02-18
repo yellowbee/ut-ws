@@ -10,7 +10,7 @@ const TesterSchema = new Schema(
     name: String,
     industry: String,
     size: String,
-    phone: String,
+    mobile: String,
     code: String,
     desc: String
   },

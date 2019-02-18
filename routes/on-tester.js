@@ -18,7 +18,7 @@ let service = {
       res.json({ result: "REQUEST IGNORED" });
     } else {
       let newTester = req.body;
-      Tester.find({ phone: newTester.phone }, (err, testers) => {
+      Tester.find({ mobile: newTester.mobile }, (err, testers) => {
         if (err) {
           res.json({ result: err });
         }
@@ -33,7 +33,7 @@ let service = {
             name: newTester.name,
             industry: newTester.industry,
             size: newTester.size,
-            phone: newTester.phone,
+            mobile: newTester.mobile,
             token: {
               value: token
             }
@@ -48,7 +48,7 @@ let service = {
                 tester: {
                   uuid: obj.uuid,
                   name: obj.name,
-                  phone: obj.phone
+                  mobile: obj.mobile
                 },
                 token: {
                   value: token
@@ -66,14 +66,14 @@ let service = {
       res.json({ result: "REQUEST IGNORED" });
     } else {
       let tester = req.body;
-      Tester.find({ phone: tester.phone }, (err, testers) => {
+      Tester.find({ mobile: tester.mobile }, (err, testers) => {
         if (err) {
           res.json({ result: err });
         }
         if (testers.length > 0) {
           res.json({success: true,
             uuid: testers[0].uuid,
-            token: genToken({ phone: tester.phone })
+            token: genToken({ mobile: tester.mobile })
           });
         } else {
           res.json({success: false, errorCode: '0003' });
@@ -115,7 +115,7 @@ let service = {
         edu: newTask.edu,
         industry: newTask.industry,
         openid: newTask.openid,
-        phone: newTask.phone,
+        mobile: newTask.mobile,
         price: newTask.price,
         sex: newTask.sex,
         title: newTask.title,
@@ -165,7 +165,7 @@ let genToken = function(obj) {
   let token = jwt.sign(
     {
       name: obj.name,
-      phone: obj.phone,
+      mobile: obj.mobile,
       exp: Math.floor(Date.now() / 1000) + 60 * 60
     },
     config.config.user_pool.token_secret
