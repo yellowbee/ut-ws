@@ -27,41 +27,42 @@ let service = {
           res.json({success: false, errorCode: '0001'});
         } else {
           let savedCode = redisClient.get(newTester.mobile);
-          if (!savedCode || savedCode !== newTester.code) {
+          if (!savedCode || savedCode !== newTester.code) {//code mismatches
             res.json({ success: false, errorCode: '0005' })
+          } else {// code verified
+
+            let token = genToken(newTester);
+            let uuid = uuidv4();
+
+            const tester = new Tester({
+              uuid,
+              name: newTester.name,
+              industry: newTester.industry,
+              size: newTester.size,
+              mobile: newTester.mobile,
+              token: {
+                value: token
+              }
+            });
+
+            tester.save((err, obj) => {
+              if (err) {
+                res.json({ success: false, errorCode: '0002', result: err });
+              } else {
+                res.json({
+                  success: true,
+                  tester: {
+                    uuid: obj.uuid,
+                    name: obj.name,
+                    mobile: obj.mobile
+                  },
+                  token: {
+                    value: token
+                  }
+                });
+              }
+            });
           }
-
-          let token = genToken(newTester);
-          let uuid = uuidv4();
-
-          const tester = new Tester({
-            uuid,
-            name: newTester.name,
-            industry: newTester.industry,
-            size: newTester.size,
-            mobile: newTester.mobile,
-            token: {
-              value: token
-            }
-          });
-
-          tester.save((err, obj) => {
-            if (err) {
-              res.json({success: false, errorCode: '0002', result: err });
-            } else {
-              res.json({
-                success: true,
-                tester: {
-                  uuid: obj.uuid,
-                  name: obj.name,
-                  mobile: obj.mobile
-                },
-                token: {
-                  value: token
-                }
-              });
-            }
-          });
         }
       });
     }
