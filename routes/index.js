@@ -6,11 +6,12 @@
 let express = require('express');
 let router = express.Router();
 
-let user = require('./users.js');
-let stdParam = require('./std-param');
+//let user = require('./users.js');
+//let stdParam = require('./std-param');
 
 let onTestee = require('./on-testee');
 let onTester= require('./on-tester');
+const sms = require('./sms');
 /*
  * Routes that can be accessed by any one
  */
@@ -45,5 +46,7 @@ router.get('/tasks/:openid', onTester.getTasksByWxOpenid);
 router.delete('/task/:_id', onTester.deleteTaskById);
 
 router.post('/testees', onTestee.getTesteesByIndustry);
+
+router.post('/sms', sms.sendSms);
 
 module.exports = router;
