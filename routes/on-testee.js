@@ -7,6 +7,7 @@ const Testee = require("../models/testee");
 const User = require("../models/user");
 const Profile = require("../models/profile");
 const querystring = require("querystring");
+const config = require("../config/config");
 
 let _ = require("lodash");
 let uuid = require("uuid");
@@ -84,7 +85,7 @@ let service = {
 
   renew: function(req, res) {
     let token = req.params.token;
-    let decoded = jwt.decode(token, require("../config/secret")());
+    let decoded = jwt.decode(token, config.config.user_pool.token_secret);
     console.log(decoded);
 
     if (decoded && decoded.userName) {
@@ -138,7 +139,7 @@ let genToken = function(obj) {
       phone: obj.phone,
       exp: Math.floor(Date.now() / 1000) + (60 * 60)
     },
-    require("../config/secret")()
+    config.config.user_pool.token_secret
   );
 
   return token;

@@ -6,6 +6,7 @@ const Schema = mongoose.Schema;
 
 const TesterSchema = new Schema(
   {
+    uuid: String,
     name: String,
     industry: String,
     size: String,

@@ -8,6 +8,7 @@ const User = require("../models/user");
 const Profile = require("../models/profile");
 const ROE = require("../models/std-param/roe");
 const querystring = require("querystring");
+const config = require("../config/config");
 
 let cloudinary = require("cloudinary");
 cloudinary.config({
@@ -72,7 +73,7 @@ let service = {
 
   renew: function(req, res) {
     let token = req.params.token;
-    let decoded = jwt.decode(token, require("../config/secret")());
+    let decoded = jwt.decode(token, config.config.user_pool.token_secret);
     console.log(decoded);
 
     if (decoded && decoded.userName) {
@@ -248,7 +249,7 @@ let genToken = function(user) {
       userName: user.userName,
       exp: Date.now() + 7 * 24 * 3600 * 1000
     },
-    require("../config/secret")()
+    config.config.user_pool.token_secret
   );
 
   return token;

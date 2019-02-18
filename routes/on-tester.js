@@ -8,9 +8,9 @@ const Task = require("../models/task");
 //const querystring = require("querystring");
 const config = require("../config/config");
 const axios = require("axios");
+const uuidv4 = require("uuid/v4");
 
 let _ = require("lodash");
-let uuid = require("uuid");
 
 let service = {
   create: function(req, res) {
@@ -26,13 +26,14 @@ let service = {
           res.json({success: false, errorCode: '0001'});
         } else {
           let token = genToken(newTester);
+          let uuid = uuidv4();
 
           const tester = new Tester({
+            uuid,
             name: newTester.name,
             industry: newTester.industry,
             size: newTester.size,
             phone: newTester.phone,
-            code: newTester.code,
             token: {
               value: token
             }
@@ -45,8 +46,9 @@ let service = {
               res.json({
                 success: true,
                 tester: {
-                  name: newTester.name,
-                  phone: newTester.phone
+                  uuid: obj.uuid,
+                  name: obj.name,
+                  phone: obj.phone
                 },
                 token: {
                   value: token
@@ -69,9 +71,12 @@ let service = {
           res.json({ result: err });
         }
         if (testers.length > 0) {
-          res.json({ token: genToken({ phone: tester.phone }) });
+          res.json({success: true,
+            uuid: testers[0].uuid,
+            token: genToken({ phone: tester.phone })
+          });
         } else {
-          res.json({ result: "no such phone number found" });
+          res.json({success: false, errorCode: '0003' });
         }
       });
     }
@@ -163,7 +168,7 @@ let genToken = function(obj) {
       phone: obj.phone,
       exp: Math.floor(Date.now() / 1000) + 60 * 60
     },
-    require("../config/secret")()
+    config.config.user_pool.token_secret
   );
 
   return token;

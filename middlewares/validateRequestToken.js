@@ -1,5 +1,8 @@
 const jwt = require('jsonwebtoken');
-const secret = require('../config/secret')();
+//const secret = require('../config/secret')();
+const config = require("../config/config");
+
+const secret = config.config.user_pool.token_secret;
 
 module.exports = (req, res, next)=>{
   // check header or url parameters or post parameters for token
