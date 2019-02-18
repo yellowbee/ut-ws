@@ -9,6 +9,7 @@ const Task = require("../models/task");
 const config = require("../config/config");
 const axios = require("axios");
 const uuidv4 = require("uuid/v4");
+const redisClient = require('../common/redis-client');
 
 let _ = require("lodash");
 
@@ -25,6 +26,11 @@ let service = {
         if (testers.length > 0) {
           res.json({success: false, errorCode: '0001'});
         } else {
+          let savedCode = redisClient.get(newTester.mobile);
+          if (!savedCode || savedCode !== newTester.code) {
+            res.json({ success: false, errorCode: '0005' })
+          }
+
           let token = genToken(newTester);
           let uuid = uuidv4();
 
