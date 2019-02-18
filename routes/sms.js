@@ -33,7 +33,7 @@ const service = {
         } else {
           client.set(req.body.mobile, code);
           // Expire in 600 seconds or 10 mins
-          client.expire('string key', 600);
+          client.expire(req.body.mobile, 600);
           res.json({ success: true, code });
         }
       })
