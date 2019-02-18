@@ -26,8 +26,6 @@ const service = {
       content: `【用户池】您的短信验证码是：${code}， 请在10分钟内输入。如果不是本人操作，请忽略。`
     })
       .then((response) => {
-        console.log(response);
-
         if (response.data.status !== 'success') {
           res.json({ success: false, errorCode: '0004' })
         } else {
