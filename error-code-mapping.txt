@@ -3,3 +3,4 @@
 0003: No such mobile phone number found.
 0004: submail sms send request failure.
 0005: sms verification code does not match.
+0006: redis get error.

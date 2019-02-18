@@ -9,7 +9,7 @@ const Task = require("../models/task");
 const config = require("../config/config");
 const axios = require("axios");
 const uuidv4 = require("uuid/v4");
-const redisClient = require('../common/redis-client');
+const redisClient = require("../common/redis-client");
 
 let _ = require("lodash");
 
@@ -24,46 +24,52 @@ let service = {
           res.json({ result: err });
         }
         if (testers.length > 0) {
-          res.json({success: false, errorCode: '0001'});
+          res.json({ success: false, errorCode: "0001" });
         } else {
-          let savedCode = redisClient.get(newTester.mobile);
-          if (!savedCode || savedCode !== newTester.code) {//code mismatches
-            console.log(`savedCode: ${savedCode}, submitted code: ${newTester.code}`);
-            res.json({ success: false, errorCode: '0005' })
-          } else {// code verified
+          redisClient.get(newTester.mobile, function(err, reply) {
+            console.log(`redis get reply: ${reply}`);
 
-            let token = genToken(newTester);
-            let uuid = uuidv4();
+            if (err) {
+              res.json({ success: false, errorCode: "0006" });
+            } else if (!reply || reply !== newTester.code) {
+              //code mismatches
+              res.json({ success: false, errorCode: "0005" });
+            } else {
+              // code verified
 
-            const tester = new Tester({
-              uuid,
-              name: newTester.name,
-              industry: newTester.industry,
-              size: newTester.size,
-              mobile: newTester.mobile,
-              token: {
-                value: token
-              }
-            });
+              let token = genToken(newTester);
+              let uuid = uuidv4();
 
-            tester.save((err, obj) => {
-              if (err) {
-                res.json({ success: false, errorCode: '0002', result: err });
-              } else {
-                res.json({
-                  success: true,
-                  tester: {
-                    uuid: obj.uuid,
-                    name: obj.name,
-                    mobile: obj.mobile
-                  },
-                  token: {
-                    value: token
-                  }
-                });
-              }
-            });
-          }
+              const tester = new Tester({
+                uuid,
+                name: newTester.name,
+                industry: newTester.industry,
+                size: newTester.size,
+                mobile: newTester.mobile,
+                token: {
+                  value: token
+                }
+              });
+
+              tester.save((err, obj) => {
+                if (err) {
+                  res.json({ success: false, errorCode: "0002", result: err });
+                } else {
+                  res.json({
+                    success: true,
+                    tester: {
+                      uuid: obj.uuid,
+                      name: obj.name,
+                      mobile: obj.mobile
+                    },
+                    token: {
+                      value: token
+                    }
+                  });
+                }
+              });
+            }
+          });
         }
       });
     }
@@ -79,12 +85,13 @@ let service = {
           res.json({ result: err });
         }
         if (testers.length > 0) {
-          res.json({success: true,
+          res.json({
+            success: true,
             uuid: testers[0].uuid,
             token: genToken({ mobile: tester.mobile })
           });
         } else {
-          res.json({success: false, errorCode: '0003' });
+          res.json({ success: false, errorCode: "0003" });
         }
       });
     }
@@ -144,7 +151,7 @@ let service = {
     Task.findByIdAndRemove(req.params._id, (err, task) => {
       // As always, handle any potential errors:
       if (err) {
-        res.json({err: err});
+        res.json({ err: err });
       } else {
         // We'll create a simple object to send back with a message and the id of the document that was removed
         // You can really do this however you want, though.
