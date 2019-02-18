@@ -6,13 +6,6 @@ const random6 = function() {
   return Math.floor(Math.random(0.1, 1) * 1000000);
 };
 
-client.on('connect', function() {
-  console.log('Redis client connected');
-});
-client.on('error', function (err) {
-  console.log('Something went wrong ' + err);
-});
-
 const service = {
   sendSms: function(req, res) {
     let code = random6();
