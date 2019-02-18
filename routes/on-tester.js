@@ -85,10 +85,22 @@ let service = {
           res.json({ result: err });
         }
         if (testers.length > 0) {
-          res.json({
-            success: true,
-            uuid: testers[0].uuid,
-            token: genToken({ mobile: tester.mobile })
+          redisClient.get(tester.mobile, function(err, reply) {
+            console.log(`redis get reply: ${reply}`);
+
+            if (err) {
+              res.json({ success: false, errorCode: "0006" });
+            } else if (!reply || reply !== newTester.code) {
+              //code mismatches
+              res.json({ success: false, errorCode: "0005" });
+            } else {
+              // code verified
+              res.json({
+                success: true,
+                uuid: testers[0].uuid,
+                token: genToken({ mobile: tester.mobile })
+              });
+            }
           });
         } else {
           res.json({ success: false, errorCode: "0003" });
