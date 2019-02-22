@@ -4,8 +4,9 @@ const fs = require('fs');
 const path = require('path');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
-const expressGraphQL = require("express-graphql");
-const schema = require('./schema/schema');
+const cors = require('cors');
+//const expressGraphQL = require("express-graphql");
+//const schema = require('./schema/schema');
 const config = require('./config/config');
 
 const options = {
@@ -14,6 +15,7 @@ const options = {
 };
 
 let app = express();
+app.use(cors());
 
 const mongoose = require('mongoose');
 mongoose.connect(config.config.dbs.woyaotest);
@@ -57,10 +59,10 @@ app.use('/api', require('./middlewares/validateRequestToken'));
  * First param is the endpoint url as a string. Second param is the result
  * of calling express_graphql with the config object passed in.
  */
-app.use('/graphql', expressGraphQL({
+/*app.use('/graphql', expressGraphQL({
     schema: schema,
     graphiql: true
-}));
+}));*/
 
 app.use('/', require('./routes'));
 
