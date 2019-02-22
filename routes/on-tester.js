@@ -135,25 +135,25 @@ let service = {
     if (_.isEmpty(req.body)) {
       res.json({ message: "request body cannot be empty" });
     } else {
-      let newTask = req.body;
+      let { poster_uuid, name, desc, age, sex, industry, edu, payType, payDesc, mobile } = req.body;
       const task = new Task({
-        desc: newTask.desc,
-        dob: newTask.dob,
-        edu: newTask.edu,
-        industry: newTask.industry,
-        openid: newTask.openid,
-        mobile: newTask.mobile,
-        price: newTask.price,
-        sex: newTask.sex,
-        title: newTask.title,
-        wechat: newTask.wechat
+        poster_uuid,
+        name,
+        desc,
+        age,
+        sex,
+        industry,
+        edu,
+        payType,
+        payDesc,
+        mobile
       });
 
       task.save((err, obj) => {
         if (err) {
-          res.json({ result: err });
+          res.json({ success: false, message: err });
         } else {
-          res.json({ message: "New task saved!" });
+          res.json({ success: true });
         }
       });
     }

@@ -6,16 +6,16 @@ const Schema = mongoose.Schema;
 
 const TaskSchema = new Schema(
   {
+    poster_uuid: String,
+    name: String,
     desc: String,
-    dob: Number,
-    edu: String,
-    industry: String,
-    openid: String,
-    phone: String,
-    price: Number,
+    age: String,
     sex: String,
-    title: String,
-    wechat: String,
+    industry: String,
+    edu: String,
+    payType: String,
+    payDesc: String,
+    mobile: String
   },
   { collection: "tasks" }
 );
