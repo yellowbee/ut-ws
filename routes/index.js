@@ -42,7 +42,7 @@ router.post('/tester-login', onTester.login);
 router.get('/test', (req, res)=> {res.json({result: "test success"})});
 
 router.post('/api/task', onTester.addTask);
-router.get('/tasks/:openid', onTester.getTasksByWxOpenid);
+router.get('/api/tasks/:poster_uuid', onTester.getTasksByPosterUuid);
 router.delete('/task/:_id', onTester.deleteTaskById);
 
 router.post('/testees', onTestee.getTesteesByIndustry);

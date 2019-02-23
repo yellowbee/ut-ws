@@ -173,12 +173,12 @@ let service = {
   },
 
   // get all tasks posted by a specific wechat openid
-  getTasksByWxOpenid(req, res) {
-    Task.find({ openid: req.params.openid }, (err, tasks) => {
+  getTasksByPosterUuid(req, res) {
+    Task.find({ poster_uuid: req.params.poster_uuid }, (err, tasks) => {
       if (err) {
-        res.json({ result: err });
+        res.json({success: false, result: err });
       } else {
-        res.json(tasks);
+        res.json({success: true, tasks});
       }
     });
   }
