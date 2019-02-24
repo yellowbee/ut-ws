@@ -39,7 +39,7 @@ router.post('/testee', onTestee.create);
 router.post('/new-tester', onTester.create);
 router.post('/testee-login', onTestee.login);
 router.post('/tester-login', onTester.login);
-router.get('/test', (req, res)=> {res.json({result: "test success"})});
+router.get('/api/check-token', (req, res)=> {res.json({success: true, message: "test success"})});
 
 router.post('/api/task', onTester.addTask);
 router.get('/api/tasks/:poster_uuid', onTester.getTasksByPosterUuid);

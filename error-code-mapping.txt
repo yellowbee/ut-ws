@@ -1,6 +1,7 @@
 0001: Mobile phone number has been registered for signup and is not available.
 0002: Database errors.
 0003: No such mobile phone number found.
-0004: submail sms send request failure.
-0005: sms verification code does not match.
-0006: redis get error.
+0004: Submail sms send request failure.
+0005: SMS verification code does not match.
+0006: Redis get error.
+0007: Invalid token.

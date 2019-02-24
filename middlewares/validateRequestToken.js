@@ -16,6 +16,8 @@ module.exports = (req, res, next)=>{
 
       if(err){
         res.status(403).json({
+          success: false,
+          errorCode: '0007',
           message:"Wrong Token: " + token
         });
       }
