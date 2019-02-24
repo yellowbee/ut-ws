@@ -193,7 +193,7 @@ let genToken = function(obj) {
     {
       name: obj.name,
       mobile: obj.mobile,
-      exp: Math.floor(Date.now() / 1000) + 60 * 60
+      exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7
     },
     config.config.user_pool.token_secret
   );
