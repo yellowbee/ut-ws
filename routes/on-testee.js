@@ -148,31 +148,4 @@ let service = {
   }
 };
 
-let genToken = function(obj) {
-  //let expires = expiresIn(7); // 7 days
-  /*let token = jwt.encode({
-     exp: expires
-     }, require('../config/secret')());*/
-  let token = jwt.sign(
-    {
-      name: obj.name,
-      phone: obj.phone,
-      exp: Math.floor(Date.now() / 1000) + (60 * 60)
-    },
-    config.config.user_pool.token_secret
-  );
-
-  return token;
-  /*return {
-    token: {
-        value: token,
-        expires: Date.now() + 7 * 24 * 3600 * 1000
-    },
-    user: {
-      fullName: user.fullName,
-      username: user.username
-    }
-  };*/
-};
-
 module.exports = service;
