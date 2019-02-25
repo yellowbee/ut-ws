@@ -33,8 +33,6 @@ const sms = require('./sms');
 //router.get('/api/roe/:code', user.service.getRoeByCompany);
 //router.get('/api/roes/:codesstr', stdParam.getRoesByCompanies);
 
-router.get('/wscode2session/:code', onTester.wsCodeToSession);
-
 router.post('/testee', onTestee.create);
 router.post('/new-tester', onTester.create);
 router.post('/testee-login', onTestee.login);

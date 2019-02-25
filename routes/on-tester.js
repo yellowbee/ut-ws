@@ -2,14 +2,12 @@
  * Created by bhuang on 12/4/17.
  */
 
-let jwt = require("jsonwebtoken");
 const Tester = require("../models/tester");
 const Task = require("../models/task");
 //const querystring = require("querystring");
-const config = require("../config/config");
-const axios = require("axios");
 const uuidv4 = require("uuid/v4");
 const redisClient = require("../common/redis-client");
+const jwt = require("../common/jwt");
 
 let _ = require("lodash");
 
@@ -37,7 +35,7 @@ let service = {
             } else {
               // code verified
 
-              let token = genToken(newTester);
+              let token = jwt.genToken(newTester);
               let uuid = uuidv4();
 
               const tester = new Tester({
@@ -46,9 +44,6 @@ let service = {
                 industry: newTester.industry,
                 size: newTester.size,
                 mobile: newTester.mobile,
-                token: {
-                  value: token
-                }
               });
 
               tester.save((err, obj) => {
@@ -98,7 +93,7 @@ let service = {
               res.json({
                 success: true,
                 uuid: testers[0].uuid,
-                token: genToken({ mobile: tester.mobile })
+                token: jwt.genToken({ mobile: tester.mobile })
               });
             }
           });
@@ -106,28 +101,6 @@ let service = {
           res.json({ success: false, errorCode: "0003" });
         }
       });
-    }
-  },
-
-  // fetch wechat user's openid and login session
-  wsCodeToSession: function(req, res) {
-    if (req.params.code) {
-      //var d=that.globalData;//这里存储了appid、secret、token串
-      let url = `https://api.weixin.qq.com/sns/jscode2session?appid=${
-        config.config.user_pool.app_id
-      }&secret=${config.config.user_pool.app_secret}&js_code=${
-        req.params.code
-      }&grant_type=authorization_code`;
-      axios
-        .get(url)
-        .then(function(response) {
-          res.json({ res: response.data });
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-    } else {
-      res.json({ message: "code is missing" });
     }
   },
 
@@ -182,33 +155,6 @@ let service = {
       }
     });
   }
-};
-
-let genToken = function(obj) {
-  //let expires = expiresIn(7); // 7 days
-  /*let token = jwt.encode({
-     exp: expires
-     }, require('../config/secret')());*/
-  let token = jwt.sign(
-    {
-      name: obj.name,
-      mobile: obj.mobile,
-      exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7
-    },
-    config.config.user_pool.token_secret
-  );
-
-  return token;
-  /*return {
-    token: {
-        value: token,
-        expires: Date.now() + 7 * 24 * 3600 * 1000
-    },
-    user: {
-      fullName: user.fullName,
-      username: user.username
-    }
-  };*/
 };
 
 module.exports = service;

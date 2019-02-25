@@ -2,12 +2,13 @@
  * Created by bhuang on 12/4/17.
  */
 
-let jwt = require("jsonwebtoken");
 const Testee = require("../models/testee");
 const User = require("../models/user");
 const Profile = require("../models/profile");
 const querystring = require("querystring");
 const config = require("../config/config");
+const redisClient = require("../common/redis-client");
+const jwt = require("../common/jwt");
 
 let _ = require("lodash");
 let uuid = require("uuid");
@@ -18,44 +19,49 @@ let service = {
       res.json({ result: "REQUEST IGNORED" });
     } else {
       let newTestee = req.body;
-      //data.push(newTestee); // Spoof a DB call
-      //res.json(newTestee);
-      Testee.find({ phone: newTestee.phone }, (err, testees) => {
+      Testee.find({ mobile: newTestee.mobile }, (err, testees) => {
         if (err) {
           res.json({ result: err });
         }
         if (testees.length > 0) {
-          console.log(testees);
-          res.json({ result: "phone number is not available" });
+          res.json({ success: false, errorCode: "0001" });
         } else {
-          let token = genToken(newTestee);
-
-          const testee = new Testee({
-            name: newTestee.name,
-            dob: newTestee.dob,
-            sex: newTestee.sex,
-            industry: newTestee.industry,
-            price: newTestee.price,
-            phone: newTestee.phone,
-            wechat: newTestee.wechat,
-            desc: newTestee.desc,
-            token: {
-              value: token,
-              expires: -1
-            }
-          });
-
-          testee.save((err, obj) => {
+          redisClient.get(newTestee.mobile, function(err, reply) {
             if (err) {
-              res.json({ result: err });
+              res.json({ success: false, errorCode: "0006" });
+            } else if (!reply || reply !== newTester.code) {
+              //code mismatches
+              res.json({ success: false, errorCode: "0005" });
             } else {
-              res.json({
-                testee: {
-                  name: newTestee.name
-                },
-                token: {
-                  value: token,
-                  expires: -1
+              // code verified
+              let token = jwt.genToken(newTestee);
+              let uuid = uuidv4();
+
+              const testee = new Testee({
+                uuid,
+                name: newTestee.name,
+                age: newTestee.age,
+                sex: newTestee.sex,
+                industry: newTestee.industry,
+                edu: newTestee.edu,
+                mobile: newTestee.mobile
+              });
+
+              testee.save((err, obj) => {
+                if (err) {
+                  res.json({ success: false, errorCode: "0002", result: err });
+                } else {
+                  res.json({
+                    success: true,
+                    testee: {
+                      uuid: obj.uuid,
+                      name: obj.name,
+                      mobile: obj.mobile
+                    },
+                    token: {
+                      value: token
+                    }
+                  });
                 }
               });
             }
@@ -70,14 +76,28 @@ let service = {
       res.json({ result: "REQUEST IGNORED" });
     } else {
       let testee = req.body;
-      Testee.find({ phone: testee.phone }, (err, testees) => {
+      Testee.find({ mobile: testee.mobile }, (err, testees) => {
         if (err) {
           res.json({ result: err });
         }
         if (testees.length > 0) {
-          res.json({ token: genToken({phone: testee.phone}) });
+          redisClient.get(testee.mobile, function(err, reply) {
+            if (err) {
+              res.json({ success: false, errorCode: "0006" });
+            } else if (!reply || reply !== testee.code) {
+              //code mismatches
+              res.json({ success: false, errorCode: "0005" });
+            } else {
+              // code verified
+              res.json({
+                success: true,
+                uuid: testees[0].uuid,
+                token: jwt.genToken({ mobile: testee.mobile })
+              });
+            }
+          });
         } else {
-          res.json({ result: "no such phone number found"})
+          res.json({ success: false, errorCode: "0003" });
         }
       });
     }
