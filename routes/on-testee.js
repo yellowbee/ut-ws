@@ -5,13 +5,12 @@
 const Testee = require("../models/testee");
 const User = require("../models/user");
 const Profile = require("../models/profile");
-const querystring = require("querystring");
 const config = require("../config/config");
 const redisClient = require("../common/redis-client");
 const jwt = require("../common/jwt");
 
-let _ = require("lodash");
-let uuid = require("uuid");
+const _ = require("lodash");
+const uuidv4 = require("uuid/v4");
 
 let service = {
   create: function(req, res) {
@@ -29,7 +28,7 @@ let service = {
           redisClient.get(newTestee.mobile, function(err, reply) {
             if (err) {
               res.json({ success: false, errorCode: "0006" });
-            } else if (!reply || reply !== newTester.code) {
+            } else if (!reply || reply !== newTestee.code) {
               //code mismatches
               res.json({ success: false, errorCode: "0005" });
             } else {
