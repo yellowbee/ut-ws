@@ -7,6 +7,7 @@ const Schema = mongoose.Schema;
 const TaskSchema = new Schema(
   {
     poster_uuid: String,
+    date: { type: Date, default: Date.now },
     name: String,
     desc: String,
     age: String,

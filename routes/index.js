@@ -11,6 +11,7 @@ let router = express.Router();
 
 let onTestee = require('./on-testee');
 let onTester= require('./on-tester');
+const onTask = require('./on-task');
 const sms = require('./sms');
 /*
  * Routes that can be accessed by any one
@@ -44,6 +45,7 @@ router.get('/api/tasks/:poster_uuid', onTester.getTasksByPosterUuid);
 router.delete('/task/:_id', onTester.deleteTaskById);
 
 router.post('/testees', onTestee.getTesteesByIndustry);
+router.post('/tasks/:limit', onTask.getTasksWithFilterAndLimit);
 
 router.post('/sms', sms.sendSms);
 
