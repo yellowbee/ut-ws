@@ -17,13 +17,22 @@ const service = {
 
     let filter_obj = filter_arr.length === 0 ? {} : { $and: filter_arr };
 
-    Task
-      .find( filter_obj )
-      .sort({'date': -1})
-      .limit(parseInt(req.params.limit))
-      .exec(function(err, posts) {
-        res.json(posts);
-      });
+    if (req.params.limit !== '-1') {
+      Task
+        .find(filter_obj)
+        .sort({ 'date': -1 })
+        .limit(parseInt(req.params.limit))
+        .exec(function(err, tasks) {
+          res.json(tasks);
+        });
+    } else {
+      Task
+        .find(filter_obj)
+        .sort({ 'date': -1 })
+        .exec(function(err, tasks) {
+          res.json(tasks);
+        });
+    }
   }
 };
 
