@@ -162,15 +162,15 @@ let service = {
 
     Testee.findOneAndUpdate({
       uuid: uuid
-    }, update, {
-      upsert: true,
-      new: true,
+    }, {$set: { age, desc, edu, industry, mobile, name, payDesc, payType, sex, role, wechat }}, {
       overwrite: true // works if you comment this out
     }, function(err, testee) {
       if (err) {
         res.json({ success: false });
+      } else if (!testee) {
+        res.json({ success: false, message: "No testee with uuid found." })
       } else {
-        res.json({ success: true });
+        res.json({ success: true })
       }
     });
   }
