@@ -144,6 +144,16 @@ let service = {
         res.json(testees);
       }
     });
+  },
+
+  getTesteeByUuid: function(req, res) {
+    Testee.find({ uuid: req.params.uuid }, {'_id': 0, 'uuid': 0, '__v': 0}, (err, testees) => {
+      if (err) {
+        res.json({ success: false, message: err });
+      } else {
+        res.json({ success: true, testee: testees[0] });
+      }
+    });
   }
 };
 
