@@ -6,13 +6,18 @@ const Schema = mongoose.Schema;
 
 const TesteeSchema = new Schema(
   {
-    uuid: String,
-    name: String,
     age: String,
-    sex: String,
-    industry: String,
+    desc: String,
     edu: String,
-    mobile: String
+    industry: String,
+    mobile: String,
+    name: String,
+    payDesc: String,
+    payType: String,
+    role: String,
+    sex: String,
+    uuid: String,
+    wechat: String
   },
   { collection: "testees" }
 );

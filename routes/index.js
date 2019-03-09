@@ -47,6 +47,7 @@ router.delete('/task/:_id', onTester.deleteTaskById);
 router.post('/testees', onTestee.getTesteesByIndustry);
 router.post('/tasks/:limit', onTask.getTasksWithFilterAndLimit);
 router.get('/api/testee/:uuid', onTestee.getTesteeByUuid);
+router.put('/api/testee', onTestee.updateTesteeByUuid);
 
 router.post('/sms', sms.sendSms);
 

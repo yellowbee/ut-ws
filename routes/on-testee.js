@@ -154,6 +154,25 @@ let service = {
         res.json({ success: true, testee: testees[0] });
       }
     });
+  },
+
+  updateTesteeByUuid: function(req, res) {
+    let { age, desc, edu, industry, mobile, name, payDesc, payType, sex, role, wechat, uuid } = req.body;
+    var update = { age, desc, edu, industry, mobile, name, payDesc, payType, sex, role, wechat };
+
+    Testee.findOneAndUpdate({
+      uuid: uuid
+    }, update, {
+      upsert: true,
+      new: true,
+      overwrite: true // works if you comment this out
+    }, function(err, testee) {
+      if (err) {
+        res.json({ success: false });
+      } else {
+        res.json({ success: true });
+      }
+    });
   }
 };
 
