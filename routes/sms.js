@@ -15,7 +15,7 @@ const service = {
       appid: config.config.user_pool.submail_appid,
       to: req.body.mobile,
       signature: config.config.user_pool.submail_appkey,
-      content: `【用户池】您的短信验证码是：${code}， 请在10分钟内输入。如果不是本人操作，请忽略。`
+      content: `【爱测试】您的短信验证码是：${code}， 请在10分钟内输入。如果不是本人操作，请忽略。`
     })
       .then((response) => {
         if (response.data.status !== 'success') {
