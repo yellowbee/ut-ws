@@ -94,6 +94,7 @@ let service = {
               res.json({
                 success: true,
                 uuid: testers[0].uuid,
+                activated: testers[0].activated,
                 token: jwt.genToken({ mobile: tester.mobile })
               });
             }
