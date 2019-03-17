@@ -6,13 +6,14 @@ const Schema = mongoose.Schema;
 
 const TesterSchema = new Schema(
   {
-    uuid: String,
-    name: String,
-    industry: String,
-    size: String,
-    mobile: String,
+    activated: Boolean,
     code: String,
-    desc: String
+    desc: String,
+    industry: String,
+    mobile: String,
+    name: String,
+    size: String,
+    uuid: String
   },
   { collection: "testers" }
 );

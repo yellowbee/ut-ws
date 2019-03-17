@@ -40,6 +40,7 @@ let service = {
 
               const tester = new Tester({
                 uuid,
+                activated: false,
                 name: newTester.name,
                 industry: newTester.industry,
                 size: newTester.size,
