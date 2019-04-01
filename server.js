@@ -78,9 +78,9 @@ app.use(express.json());
 app.use(express.urlencoded());
 
 // Start the server
-https.createServer(options, app).listen(443);
+//https.createServer(options, app).listen(443);
 
-/*if (process.env.CERT_PATH) {
+if (process.env.NODE_ENV === 'production') {
   https.createServer(options, app).listen(443);
 } else {
   app.set('port', process.env.PORT || 3000);
@@ -88,5 +88,5 @@ https.createServer(options, app).listen(443);
   let server = app.listen(app.get('port'), () => {
     console.log('Express server listening on port ' + server.address().port);
   });
-}*/
+}
 

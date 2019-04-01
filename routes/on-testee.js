@@ -38,12 +38,12 @@ let service = {
 
               const testee = new Testee({
                 uuid,
-                name: newTestee.name,
                 age: newTestee.age,
-                sex: newTestee.sex,
-                industry: newTestee.industry,
                 edu: newTestee.edu,
-                mobile: newTestee.mobile
+                industry: newTestee.industry,
+                mobile: newTestee.mobile,
+                name: newTestee.name,
+                sex: newTestee.sex
               });
 
               testee.save((err, obj) => {
