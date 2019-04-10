@@ -38,6 +38,7 @@ let service = {
 
               const testee = new Testee({
                 uuid,
+                signupDate: Date.now(),
                 age: newTestee.age,
                 edu: newTestee.edu,
                 industry: newTestee.industry,

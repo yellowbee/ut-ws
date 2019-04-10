@@ -16,7 +16,7 @@ const TesteeSchema = new Schema(
     payType: String,
     role: String,
     sex: String,
-    signupDate: { type: Date, default: Date.now() },
+    signupDate: Date,
     uuid: String,
     wechat: String
   },
